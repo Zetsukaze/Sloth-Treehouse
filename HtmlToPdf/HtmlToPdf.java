@@ -1,5 +1,7 @@
+import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.html.simpleparser.HTMLWorker;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.tool.xml.XMLWorkerHelper;
@@ -11,6 +13,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.InputStream;
 import java.io.IOException;
+import java.io.StringReader;
 
 public class HtmlToPdf {
 
@@ -31,10 +34,16 @@ public class HtmlToPdf {
 
     try {
       PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream("output.pdf"));
-      InputStream inputStream = new ByteArrayInputStream(stringBuilder.toString().getBytes());
+      String inputString = stringBuilder.toString();
+      System.out.println("Length of input: " + inputString.length());
+      //InputStream inputStream = new ByteArrayInputStream(inputString.getBytes());
 
       document.open();
-      XMLWorkerHelper.getInstance().parseXHtml(pdfWriter, document, inputStream);
+      document.add(new Chunk(""));
+      // XMLWorkerHelper.getInstance().parseXHtml(pdfWriter, document, inputStream);
+      HTMLWorker htmlWorker = new HTMLWorker(document);
+      htmlWorker.parse(new StringReader(inputString));
+
     } catch (DocumentException e) {
       e.printStackTrace();
     } catch (FileNotFoundException e) {
