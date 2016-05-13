@@ -8,18 +8,12 @@ public class NricFinValidator {
     nricFin = nricFin.toUpperCase();
 
     int checkSum = 0;
-    boolean isValidSuffix = false;
+    int[] checkSumWeightageArray = {2, 7, 6, 5, 4, 3, 2};
+    boolean validSuffix = false;
     char[] nricAllowedSuffixes = {'J', 'Z', 'I', 'H', 'G', 'F', 'E', 'D', 'C', 'B', 'A'};
     char[] finAllowedSuffixes = {'X', 'W', 'U', 'T', 'R', 'Q', 'P', 'N', 'M', 'L', 'K'};
     char[] nricFinArray = nricFin.toCharArray();
     char nricFinPrefix = nricFinArray[0];
-    int nricFinFirstDigit = Character.getNumericValue(nricFinArray[1]);
-    int nricFinSecondDigit = Character.getNumericValue(nricFinArray[2]);
-    int nricFinThirdDigit = Character.getNumericValue(nricFinArray[3]);
-    int nricFinFourthDigit = Character.getNumericValue(nricFinArray[4]);
-    int nricFinFifthDigit = Character.getNumericValue(nricFinArray[5]);
-    int nricFinSixthDigit = Character.getNumericValue(nricFinArray[6]);
-    int nricFinSeventhDigit = Character.getNumericValue(nricFinArray[7]);
     char nricFinSuffix = nricFinArray[8];
 
     if (nricFinPrefix != 'S' && nricFinPrefix != 'T' && nricFinPrefix != 'F' && nricFinPrefix != 'G') {
@@ -27,15 +21,15 @@ public class NricFinValidator {
     }
     for (char c: nricAllowedSuffixes) {
       if (c == nricFinSuffix) {
-        isValidSuffix = true;
+        validSuffix = true;
       }
     }
     for (char c: finAllowedSuffixes) {
       if (c == nricFinSuffix) {
-        isValidSuffix = true;
+        validSuffix = true;
       }
     }
-    if (!isValidSuffix) {
+    if (!validSuffix) {
       System.out.println("Invalid NRIC/FIN suffix.");
     }
 
@@ -43,13 +37,9 @@ public class NricFinValidator {
     if (nricFinPrefix == 'T' || nricFinPrefix == 'G') {
       checkSum += 4;
     }
-    checkSum += (2 * nricFinFirstDigit);
-    checkSum += (7 * nricFinSecondDigit);
-    checkSum += (6 * nricFinThirdDigit);
-    checkSum += (5 * nricFinFourthDigit);
-    checkSum += (4 * nricFinFifthDigit);
-    checkSum += (3 * nricFinSixthDigit);
-    checkSum += (2 * nricFinSeventhDigit);
+    for (int i = 0; i < 7; i++) {
+      checkSum += checkSumWeightageArray[i] * Character.getNumericValue(nricFinArray[i + 1]);
+    }
     checkSum = checkSum % 11;
 
     if (nricFinPrefix == 'S' || nricFinPrefix == 'T') {
