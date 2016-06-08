@@ -148,7 +148,7 @@ public class SqlGenerator {
   private static void displayInsertColumnsSelectionMenu() {
     System.out.println("============= COLUMN SELECTION =============");
     System.out.println("1. Type column names");
-    System.out.println("2. Use list of columns from file (the columns must correspond to the selected tables");
+    System.out.println("2. Use list of columns from file (the columns must correspond to the selected tables)");
     System.out.println("3. Back");
     System.out.print("Select an option > ");
   }
