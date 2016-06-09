@@ -282,7 +282,7 @@ public class SqlGenerator {
   private static void writeToFile(List<String> outputSql) {
     if (outputSql != null && outputSql.size() > 0) {
       try {
-        Path path = Paths.get("output.txt");
+        Path path = Paths.get("output.sql");
         Files.write(path, outputSql, Charset.forName("UTF-8"));
       } catch (IOException e) {
         e.printStackTrace();
